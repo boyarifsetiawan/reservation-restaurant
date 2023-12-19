@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryStoreRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -37,7 +38,7 @@ class CategoryController extends Controller
         Category::create([
             'name' => $request->name,
             'description' => $request->description,
-            'image' => $request->image
+            'image' => $image
         ]);
 
         return to_route('admin.categories.index')->with('success', 'Category created successfully.');
@@ -48,7 +49,6 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        //
     }
 
     /**
@@ -56,22 +56,44 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $category = Category::find($id);
+
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required'
+        ]);
+
+        $image = $category->image;
+        if ($request->hasFile('image')) {
+            Storage::delete($category->image);
+            $image = $request->file('image')->store('public/categories');
+        }
+
+        $category->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'image' => $image
+        ]);
+
+        return to_route('admin.categories.index')->with('success', 'Category updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Category $category)
     {
-        //
+        Storage::delete($category->image);
+        $category->delete();
+
+        return redirect()->route('admin.categories.index')->with('success', 'Category deleted successfully.');
     }
 }

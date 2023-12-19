@@ -1,13 +1,21 @@
 <x-admin-layout>
-  <x-slot name="header">
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-          {{ __('Admin Dashboard') }}
-      </h2>
-  </x-slot>
-
+ @if(session('success'))
+ <div id="toast-success" class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+    <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+        </svg>
+        <span class="sr-only">Check icon</span>
+    </div>
+    <div class="ms-3 text-sm font-normal">{{ session('success') }}</div>
+</div>
+ @endif
   <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="flex justify-end m-2 p-2">
+        <div class="flex justify-between m-2 p-2">
+            <div class="px-4 py-2 flex items-center text-2xl">
+            <h1 class="text-slate-900 font-bold">Categories</h1>
+            </div>
             <a href="{{ route('admin.categories.create') }}" class="px-4 py-2 focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">New Category</a>
         </div>
         <div class="relative overflow-x-auto">
@@ -49,11 +57,11 @@
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex w-3/5">
-                                <a href="{{ route('admin.categories.show',$category->id) }}" class="py-2 px-4 text-white rounded-lg bg-yellow-600 hover:bg-yellow-700">Edit</a>
+                                <a href="{{ route('admin.categories.edit',$category->id) }}" class="py-2 px-4 text-white rounded-lg bg-yellow-600 hover:bg-yellow-700">Edit</a>
                                 <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" onsubmit="return confirm('Are you sure ?');">
                                 @csrf
                                 @method('DELETE')
-                                    <button class="mx-3 py-2 px-4 bg-red-600 hover:bg-red-700 rounded-lg text-white">Delete</button>
+                                    <button type="submit" class="mx-3 py-2 px-4 bg-red-600 hover:bg-red-700 rounded-lg text-white">Delete</button>
                                 </form>
                             </div>
                         </td>
