@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TableStoreRequest;
 use App\Models\Table;
+use Illuminate\Database\Console\Migrations\StatusCommand;
 use Illuminate\Http\Request;
 
 class TableController extends Controller
@@ -22,15 +24,22 @@ class TableController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.tables.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TableStoreRequest $request)
     {
-        //
+        Table::create([
+            'name' => $request->name,
+            'guest_number' => $request->guest_number,
+            'status' => $request->status,
+            'location' => $request->location
+        ]);
+
+        return to_route('admin.tables.index')->with('success', 'Table created successfully.');
     }
 
     /**
