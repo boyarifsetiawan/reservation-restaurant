@@ -16,26 +16,29 @@
                <div class="px-4 py-2 flex items-center text-2xl">
                <h1 class="text-slate-900 font-bold">Reservations</h1>
                </div>
-               <a href="{{ route('admin.reservations.create') }}" class="px-4 py-2 focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">New Reservation</a>
+               <a href="{{ route('admin.reservations.create') }}" class="px-4 py-2 focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2">New Reservation</a>
            </div>
            <div class="relative overflow-x-auto">
                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                        <tr>
                            <th scope="col" class="px-6 py-3">
-                               No
+                                Name
                            </th>
                            <th scope="col" class="px-6 py-3">
-                               Name
+                               Email
                            </th>
                            <th scope="col" class="px-6 py-3">
-                               Image
-                           </th>
-                           <th scope="col" class="px-6 py-3">
-                               Description
-                           </th>
-                           <th scope="col" class="px-6 py-3">
-                                Price
+                                Tel Number
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Res Date
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Table
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Guest Number
                             </th>
                            <th scope="col" class="px-6 py-3">
                                Actions
@@ -45,22 +48,24 @@
                    <tbody>
                        @foreach ($reservations as $reservation)
                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                           <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                               {{ $loop->iteration }}
-                           </th>
                            <td class="px-6 py-4">
-                               {{ $reservation->name; }}
-                           </td>
-                           <td class="py-4 px-6 text-sm font-medium text-gray-900whitespace-nowrap dark:text-white">
-                               <img src="{{ Storage::url($reservation->image) }}"
-                                   class="w-16 h-16 rounded-lg"
+                               {{ $reservation->first_name; }}{{ $reservation->last_name }}
                            </td>
                            <td class="px-6 py-4">
-                               {{ $reservation->description }}
-                           </td>
-                           <td class="px-6 py-4">
-                            {{ $reservation->price }}
-                        </td>
+                                {{ $reservation->email; }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $reservation->tel_number; }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $reservation->res_date; }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $reservation->table->name; }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $reservation->guest_number; }}
+                            </td>
                            <td class="px-6 py-4">
                                <div class="flex w-3/5">
                                    <a href="{{ route('admin.reservations.edit',$reservation->id) }}" class="py-2 px-4 text-white rounded-lg bg-yellow-600 hover:bg-yellow-700">Edit</a>
